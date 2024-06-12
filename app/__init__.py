@@ -25,7 +25,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.app_context().push()
     with app.app_context():
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SERVICE_DATABASE_URL")
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("TIPS_DATABASE_URL")
         app.register_blueprint(chat)
         # jwt = JWTManager(app)
         db.init_app(app)

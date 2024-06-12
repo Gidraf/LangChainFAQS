@@ -14,9 +14,16 @@ def chat_inquiries():
     try:
         session_id = request.json.get("session_id")
         inquiry = request.json.get("inquiry")
+        whatsapp_number = request.json.get("whatsappNumber")
         print(session_id)
         print(inquiry)
-        msg = process_enquiery(inquiry, session_id)
+        msg = process_enquiery.apply_async([inquiry, session_id,whatsapp_number], retry=True,
+                                    retry_policy={
+                                        'max_retries': 30,
+                                        'interval_start': 5,
+                                        'interval_step': 0.2,
+                                        'interval_max': 0.2,
+                                    })
         return jsonify({
             "status":"success",
             "message":str(msg)
